@@ -17,6 +17,9 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 
+// const API_URL = "http://localhost:8000"
+const API_URL = "https://todoapi-e647gycl4a-uc.a.run.app"
+
 const TodosContext = React.createContext({
     todos: [], fetchTodos: () => { }
 })
@@ -35,7 +38,7 @@ function AddTodo() {
             "item": item
         }
 
-        fetch("http://localhost:8000/todo", {
+        fetch(`${API_URL}/todo`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newTodo)
@@ -63,7 +66,7 @@ function UpdateTodo({ item, id }) {
     const { fetchTodos } = React.useContext(TodosContext)
 
     const updateTodo = async () => {
-        await fetch(`http://localhost:8000/todo/${id}`, {
+        await fetch(`${API_URL}/todo/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ item: todo })
@@ -106,7 +109,7 @@ function DeleteTodo({ id }) {
     const { fetchTodos } = React.useContext(TodosContext)
 
     const deleteTodo = async () => {
-        await fetch(`http://localhost:8000/todo/${id}`, {
+        await fetch(`${API_URL}/todo/${id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: { "id": id }
@@ -138,7 +141,7 @@ function TodoHelper({ item, id, fetchTodos }) {
 export default function Todos() {
     const [todos, setTodos] = useState([])
     const fetchTodos = async () => {
-        const response = await fetch("http://localhost:8000/todo")
+        const response = await fetch(`${API_URL}/todo`)
         const todos = await response.json()
         setTodos(todos.data)
     }
